@@ -1,0 +1,6 @@
+.venv/
+task.md
+.env
+.ipynb_checkpoints/
+__pycache__/
+shop.db

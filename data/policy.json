@@ -1,0 +1,11 @@
+{
+  "return_window_days": 30,
+  "auto_refund_limit_gbp": 100,
+  "condition_dispute_partial_pct": 25,
+  "condition_dispute_limit_gbp": 50,
+  "hygiene_excluded_categories": [
+    "swimwear"
+  ],
+  "authenticity_claims": "always_escalate",
+  "shop_fault_overrides_final_sale": true
+}

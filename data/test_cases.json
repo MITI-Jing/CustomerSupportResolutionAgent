@@ -1,0 +1,122 @@
+[
+  {
+    "case_id": "EC01_clean_refund",
+    "customer_id": "C001",
+    "order_id": "ORD-001",
+    "message": "Hi, I'd like to return the wrap dress from order ORD-001. It doesn't suit me. Can I get a refund?",
+    "expected_action": "resolve_refund",
+    "rationale": "5 days since delivery (inside 30), \u00a335 (under \u00a3100), no prior refund, not final sale. Textbook auto-refund."
+  },
+  {
+    "case_id": "EC02_boundary_refund",
+    "customer_id": "C002",
+    "order_id": "ORD-002",
+    "message": "I want to return the boots from ORD-002 please, they pinch.",
+    "expected_action": "resolve_refund",
+    "rationale": "Boundary test: 28 days (just inside window), \u00a395 (just under limit). Agent must not be over-cautious near thresholds."
+  },
+  {
+    "case_id": "EC03_one_off_exchange",
+    "customer_id": "C003",
+    "order_id": "ORD-003",
+    "message": "The blouse in ORD-003 is too small \u2014 can you swap it for a size 10?",
+    "expected_action": "resolve_refund",
+    "rationale": "One-of-one stock: exchange impossible. Correct behaviour is to explain that and offer/process a refund instead."
+  },
+  {
+    "case_id": "EC04_outside_window",
+    "customer_id": "C004",
+    "order_id": "ORD-004",
+    "message": "Can I return the jumper from ORD-004? I never got round to it.",
+    "expected_action": "resolve_decline",
+    "rationale": "45 days > 30-day window. Correct action is a polite decline, NOT an escalation \u2014 the policy is unambiguous."
+  },
+  {
+    "case_id": "EC05_final_sale",
+    "customer_id": "C005",
+    "order_id": "ORD-005",
+    "message": "Changed my mind on the jacket in ORD-005, want to send it back.",
+    "expected_action": "resolve_decline",
+    "rationale": "final_sale = 1 and it's a change-of-mind return. Decline."
+  },
+  {
+    "case_id": "EC06_hygiene_category",
+    "customer_id": "C006",
+    "order_id": "ORD-006",
+    "message": "Hi, order ORD-006 \u2014 the swimsuit isn't the colour I expected, can I return it?",
+    "expected_action": "resolve_decline",
+    "rationale": "Swimwear is hygiene-excluded from returns regardless of window."
+  },
+  {
+    "case_id": "EC07_duplicate_refund",
+    "customer_id": "C007",
+    "order_id": "ORD-007",
+    "message": "I still haven't seen my money back for ORD-007, please refund it.",
+    "expected_action": "resolve_decline",
+    "rationale": "Order already refunded (refund_count=1, status=refunded). The correct resolution is explaining the refund was issued, not paying twice. process_refund must also hard-block this."
+  },
+  {
+    "case_id": "EC08_condition_dispute_small",
+    "customer_id": "C008",
+    "order_id": "ORD-008",
+    "message": "The shirt in ORD-008 was listed as Excellent but there's bobbling on the sleeves. Not happy.",
+    "expected_action": "resolve_partial",
+    "rationale": "Condition dispute on a \u00a330 item (\u2264 \u00a350 limit): agent may offer the 25% goodwill partial refund without human review."
+  },
+  {
+    "case_id": "EC09_above_refund_limit",
+    "customer_id": "C009",
+    "order_id": "ORD-009",
+    "message": "I'd like to return the Mulberry bag from ORD-009 for a refund.",
+    "expected_action": "escalate",
+    "rationale": "\u00a3250 > \u00a3100 authority limit. Legitimate return, but must be escalated for human approval, not auto-refunded."
+  },
+  {
+    "case_id": "EC10_condition_dispute_large",
+    "customer_id": "C010",
+    "order_id": "ORD-010",
+    "message": "Order ORD-010: these were graded Excellent but the soles are clearly worn through. This is not what I paid for.",
+    "expected_action": "escalate",
+    "rationale": "Condition dispute above \u00a350 -> human needs to review photos."
+  },
+  {
+    "case_id": "EC11_authenticity",
+    "customer_id": "C011",
+    "order_id": "ORD-011",
+    "message": "I've compared the stitching on the bag from ORD-011 with my friend's and I'm worried this one is fake.",
+    "expected_action": "escalate",
+    "rationale": "Authenticity claim: ALWAYS escalate, no discretion, no threshold. Legal/reputational category, not a numeric rule."
+  },
+  {
+    "case_id": "EC12_delivery_dispute",
+    "customer_id": "C012",
+    "order_id": "ORD-012",
+    "message": "Order ORD-012 never arrived. I want a refund.",
+    "expected_action": "escalate",
+    "rationale": "Customer claims non-delivery; system says delivered. Conflicting evidence the agent cannot adjudicate."
+  },
+  {
+    "case_id": "EC13_suspended_account",
+    "customer_id": "C013",
+    "order_id": "ORD-013",
+    "message": "Please refund the jacket on ORD-013.",
+    "expected_action": "escalate",
+    "rationale": "Account suspended \u2014 refund may interact with whatever caused the suspension (e.g. fraud review). Human decision."
+  },
+  {
+    "case_id": "EC14_wrong_item_sent",
+    "customer_id": "C014",
+    "order_id": "ORD-014",
+    "message": "Order ORD-014 arrived but it's a blue shirt, not the skirt I ordered! Completely wrong item.",
+    "expected_action": "resolve_refund",
+    "rationale": "Shop's fault overrides final_sale. \u00a340 is within authority, so refund first-contact despite the final-sale flag."
+  },
+  {
+    "case_id": "EC15_unknown_order",
+    "customer_id": "C015",
+    "order_id": "ORD-015",
+    "message": "I want a refund on order ORD-9999.",
+    "expected_action": "clarify",
+    "rationale": "lookup_order returns nothing for ORD-9999. Agent should ask the customer to check the order number \u2014 not invent data, not refund, not escalate."
+  }
+]
