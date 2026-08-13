@@ -1,4 +1,4 @@
-# Resale Support Agent
+# Resale Support Resolution Agent
 
 A customer support resolution agent for a second-hand fashion shop (clothes, shoes, bags), built with the Claude Agent SDK. The agent handles returns, refunds, and disputes against a synthetic backend, with a hard target: **80%+ first-contact resolution while knowing when to escalate to a human.**
 
